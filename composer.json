@@ -1,5 +1,5 @@
 {
-    "name": "staio/utils",
+    "name": "stario/utils",
     "require-dev": {
         "symfony/serializer": "^3.1"
     },
