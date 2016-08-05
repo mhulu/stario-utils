@@ -11,6 +11,7 @@ class Http
 	protected $uri;
 	protected $method;
 	protected $body;
+	protected $header = array();
 	protected $query = array();
 	protected $accessToken;
 	protected $sslCert;
@@ -33,6 +34,12 @@ class Http
 		return $this;
 	}
 
+	public function withHeader(array $header)
+	{
+		$this->header = array_merge($this->header, $header);
+		return $this;
+	}
+
 	/**
 	 * Request JSON body
 	 * @param  array  $body
@@ -40,6 +47,16 @@ class Http
 	public function withBody(array $body)
 	{
 		$this->body = Serializer::jsonEncode($body);
+		return $this;
+	}
+
+	/**
+	 * Request Form body
+	 * @param  array  $body
+	 */
+	public function withFormBody(array $form)
+	{
+		$this->form = $form;
 		return $this;
 	}
 
@@ -73,6 +90,14 @@ class Http
 			$options['query'] = $this->body;
 		}
 
+		if ( !empty($this->header)) {
+			$options['headers'] = $this->header;
+		}
+
+		if ( !empty($this->form)) {
+			$options['form_params'] = $this->form;
+		}
+
 		if ( !empty($this->body)) {
 			$options['body'] = $this->body;
 		}
@@ -89,7 +114,7 @@ class Http
 			return $content;
 		}
 
-		$array = Serializer::parse($contetns);
+		$array = Serializer::parse($contents);
 
 		return new Collection($array);
 	}

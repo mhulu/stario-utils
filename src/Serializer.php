@@ -21,7 +21,7 @@ class Serializer
             			'json_decode_recursion_depth'   => 512,
             			'json_decode_options'           => 0,
 		);
-		return (new JsonDecoder)->decode($data, 'json', array_replace($defaults, $context));
+		return (new JsonEncoder)->decode($data, 'json', array_replace($defaults, $context));
 	}
 
 	public static function xmlEncode($data, array $context = array())
